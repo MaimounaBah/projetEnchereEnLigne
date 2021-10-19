@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `enchere` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `enchere`;
--- MySQL dump 10.13  Distrib 8.0.26, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: enchere
 -- ------------------------------------------------------
--- Server version	5.7.35-log
+-- Server version	5.7.34
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +16,30 @@ USE `enchere`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `Categorie`
+--
+
+DROP TABLE IF EXISTS `Categorie`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Categorie` (
+  `idCategorie` int(11) NOT NULL AUTO_INCREMENT,
+  `libelleCat` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idCategorie`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Categorie`
+--
+
+LOCK TABLES `Categorie` WRITE;
+/*!40000 ALTER TABLE `Categorie` DISABLE KEYS */;
+INSERT INTO `Categorie` VALUES (1,'Multimédia'),(2,'Electroménager'),(3,'Sport'),(4,'Auto'),(5,'Moto'),(6,'Télévision'),(7,'Vidéo'),(8,'Audio'),(9,'Photo'),(10,'Téléviseur 4/3'),(11,'Téléviseurs 16/9'),(12,'Téléviseurs LCD');
+/*!40000 ALTER TABLE `Categorie` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `achatimm`
@@ -45,6 +69,58 @@ LOCK TABLES `achatimm` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `achatimmediat`
+--
+
+DROP TABLE IF EXISTS `achatimmediat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `achatimmediat` (
+  `idMembre` int(11) NOT NULL,
+  `idArticle` int(11) NOT NULL,
+  `dateAchat` datetime DEFAULT NULL,
+  PRIMARY KEY (`idMembre`,`idArticle`),
+  KEY `FK_achatImmediat_article_idx` (`idArticle`),
+  CONSTRAINT `FK_achatImmediat_article` FOREIGN KEY (`idArticle`) REFERENCES `article` (`idarticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_achatImmediat_membre` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`idmembre`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `achatimmediat`
+--
+
+LOCK TABLES `achatimmediat` WRITE;
+/*!40000 ALTER TABLE `achatimmediat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `achatimmediat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `administrateur`
+--
+
+DROP TABLE IF EXISTS `administrateur`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `administrateur` (
+  `idadministrateur` int(11) NOT NULL,
+  `login` varchar(45) DEFAULT NULL,
+  `motDePasse` varchar(45) DEFAULT NULL,
+  `role` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idadministrateur`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `administrateur`
+--
+
+LOCK TABLES `administrateur` WRITE;
+/*!40000 ALTER TABLE `administrateur` DISABLE KEYS */;
+/*!40000 ALTER TABLE `administrateur` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `article`
 --
 
@@ -61,13 +137,19 @@ CREATE TABLE `article` (
   `fraisPort` decimal(19,4) DEFAULT NULL,
   `dateCloture` datetime DEFAULT NULL,
   `pasEnchere` decimal(19,4) DEFAULT NULL,
-  `regionLiv` varchar(45) DEFAULT NULL,
-  `categorie` varchar(45) DEFAULT NULL,
-  `sousCat` varchar(45) DEFAULT NULL,
-  `sousSousCat` varchar(45) DEFAULT NULL,
   `idvendeur` int(11) DEFAULT NULL,
+  `idRegionLiv` int(11) DEFAULT NULL,
+  `idCategorie` int(11) DEFAULT NULL,
+  `idSousCategorie` int(11) DEFAULT NULL,
+  `etat` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idarticle`),
   KEY `FK_article_vendeur_idx` (`idvendeur`),
+  KEY `FK_article_cat_idx` (`idCategorie`),
+  KEY `FK_article_sousCat_idx` (`idSousCategorie`),
+  KEY `FK_article_regionLiv_idx` (`idRegionLiv`),
+  CONSTRAINT `FK_article_cat` FOREIGN KEY (`idCategorie`) REFERENCES `Categorie` (`idCategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_article_regionLiv` FOREIGN KEY (`idRegionLiv`) REFERENCES `regionlivraison` (`idregionlivraison`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_article_sousCat` FOREIGN KEY (`idSousCategorie`) REFERENCES `Categorie` (`idCategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_article_vendeur` FOREIGN KEY (`idvendeur`) REFERENCES `membre` (`idmembre`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -136,6 +218,34 @@ LOCK TABLES `avismembre` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `castat`
+--
+
+DROP TABLE IF EXISTS `castat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `castat` (
+  `idcastat` int(11) NOT NULL AUTO_INCREMENT,
+  `Semaine` int(11) DEFAULT NULL,
+  `Annee` int(11) DEFAULT NULL,
+  `CA` decimal(19,4) DEFAULT NULL,
+  `idCategorie` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idcastat`),
+  KEY `FK_castat_cat_idx` (`idCategorie`),
+  CONSTRAINT `FK_castat_cat` FOREIGN KEY (`idCategorie`) REFERENCES `Categorie` (`idCategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `castat`
+--
+
+LOCK TABLES `castat` WRITE;
+/*!40000 ALTER TABLE `castat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `castat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `choisir`
 --
 
@@ -159,6 +269,59 @@ CREATE TABLE `choisir` (
 LOCK TABLES `choisir` WRITE;
 /*!40000 ALTER TABLE `choisir` DISABLE KEYS */;
 /*!40000 ALTER TABLE `choisir` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `composer`
+--
+
+DROP TABLE IF EXISTS `composer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `composer` (
+  `idCategorie` int(11) NOT NULL,
+  `idSousCategorie` int(11) NOT NULL,
+  PRIMARY KEY (`idCategorie`,`idSousCategorie`),
+  KEY `FK_composer_souscat_idx` (`idSousCategorie`),
+  CONSTRAINT `FK_composer_cat` FOREIGN KEY (`idCategorie`) REFERENCES `Categorie` (`idCategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_composer_souscat` FOREIGN KEY (`idSousCategorie`) REFERENCES `Categorie` (`idCategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `composer`
+--
+
+LOCK TABLES `composer` WRITE;
+/*!40000 ALTER TABLE `composer` DISABLE KEYS */;
+INSERT INTO `composer` VALUES (1,6),(1,7),(1,8),(1,9),(6,10),(6,11),(6,12);
+/*!40000 ALTER TABLE `composer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `composerSous`
+--
+
+DROP TABLE IF EXISTS `composerSous`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `composerSous` (
+  `idSousCategorie` int(11) NOT NULL,
+  `idSSousCategorie` int(11) NOT NULL,
+  PRIMARY KEY (`idSousCategorie`,`idSSousCategorie`),
+  KEY `FK_composerS_ssouscat_idx` (`idSSousCategorie`),
+  CONSTRAINT `FK_composerS_souscat` FOREIGN KEY (`idSousCategorie`) REFERENCES `Categorie` (`idCategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_composerS_ssouscat` FOREIGN KEY (`idSSousCategorie`) REFERENCES `Categorie` (`idCategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `composerSous`
+--
+
+LOCK TABLES `composerSous` WRITE;
+/*!40000 ALTER TABLE `composerSous` DISABLE KEYS */;
+/*!40000 ALTER TABLE `composerSous` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -247,6 +410,34 @@ LOCK TABLES `membre` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `nostat`
+--
+
+DROP TABLE IF EXISTS `nostat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nostat` (
+  `idnostat` int(11) NOT NULL AUTO_INCREMENT,
+  `Semaine` int(11) DEFAULT NULL,
+  `Annee` int(11) DEFAULT NULL,
+  `NombreObjet` int(11) DEFAULT NULL,
+  `idCategorie` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idnostat`),
+  KEY `FK_nostat_cat_idx` (`idCategorie`),
+  CONSTRAINT `FK_nostat_cat` FOREIGN KEY (`idCategorie`) REFERENCES `Categorie` (`idCategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nostat`
+--
+
+LOCK TABLES `nostat` WRITE;
+/*!40000 ALTER TABLE `nostat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nostat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `posseder`
 --
 
@@ -285,7 +476,7 @@ CREATE TABLE `prestation` (
   `PrixCat` decimal(19,4) DEFAULT NULL,
   `PrixGold` decimal(19,4) DEFAULT NULL,
   PRIMARY KEY (`idPRESTATION`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -294,7 +485,60 @@ CREATE TABLE `prestation` (
 
 LOCK TABLES `prestation` WRITE;
 /*!40000 ALTER TABLE `prestation` DISABLE KEYS */;
+INSERT INTO `prestation` VALUES (1,'Compteur de visites',0.0000,0.0000),(2,'Photo dans la liste des objets',0.5000,0.3000),(3,'Photo supplémentaire',0.2000,0.1500),(4,'Titre en gras',0.1000,0.1000);
 /*!40000 ALTER TABLE `prestation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `regionlivraison`
+--
+
+DROP TABLE IF EXISTS `regionlivraison`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `regionlivraison` (
+  `idregionlivraison` int(11) NOT NULL AUTO_INCREMENT,
+  `region` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idregionlivraison`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `regionlivraison`
+--
+
+LOCK TABLES `regionlivraison` WRITE;
+/*!40000 ALTER TABLE `regionlivraison` DISABLE KEYS */;
+INSERT INTO `regionlivraison` VALUES (1,'Alsace'),(2,'Aquitaine'),(3,'Auvergne'),(4,'Lorraine'),(5,'Midi-Pyrénées'),(6,'Picardie'),(7,'Rhône-Alpes');
+/*!40000 ALTER TABLE `regionlivraison` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `visstat`
+--
+
+DROP TABLE IF EXISTS `visstat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `visstat` (
+  `idvisstat` int(11) NOT NULL AUTO_INCREMENT,
+  `Semaine` int(11) DEFAULT NULL,
+  `Annee` int(11) DEFAULT NULL,
+  `nombreDeVisite` int(11) DEFAULT NULL,
+  `idCategorie` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idvisstat`),
+  KEY `FK_visstat_cat_idx` (`idCategorie`),
+  CONSTRAINT `FK_visstat_cat` FOREIGN KEY (`idCategorie`) REFERENCES `Categorie` (`idCategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `visstat`
+--
+
+LOCK TABLES `visstat` WRITE;
+/*!40000 ALTER TABLE `visstat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `visstat` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -306,4 +550,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-18 15:36:07
+-- Dump completed on 2021-10-19 15:17:08
