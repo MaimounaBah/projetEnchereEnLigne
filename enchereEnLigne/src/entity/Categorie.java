@@ -70,6 +70,10 @@ public class Categorie implements Serializable {
 
     public Categorie() {
     }
+    public Categorie(Integer idCategorie) {
+        this.idCategorie = idCategorie;
+        
+    }
 
     public Categorie(Integer idCategorie,String libelleCat) {
         this.idCategorie = idCategorie;

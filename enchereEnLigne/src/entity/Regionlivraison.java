@@ -49,6 +49,11 @@ public class Regionlivraison implements Serializable {
     public Regionlivraison(Integer idregionlivraison) {
         this.idregionlivraison = idregionlivraison;
     }
+    
+    public Regionlivraison(Integer idregionlivraison, String region) {
+        this.idregionlivraison = idregionlivraison;
+        this.region = region;
+    }
 
     public Integer getIdregionlivraison() {
         return idregionlivraison;
