@@ -39,13 +39,16 @@ public class Administrateur implements Serializable {
     @Column(name = "motDePasse")
     private String motDePasse;
     @Column(name = "role")
-    private Integer role;
+    private String role;
 
     public Administrateur() {
     }
 
-    public Administrateur(Integer idadministrateur) {
+    public Administrateur(Integer idadministrateur, String login, String motDePasse, String role) {
         this.idadministrateur = idadministrateur;
+        this.login = login;
+        this.motDePasse = motDePasse;
+        this.role = role;
     }
 
     public Integer getIdadministrateur() {
@@ -72,11 +75,11 @@ public class Administrateur implements Serializable {
         this.motDePasse = motDePasse;
     }
 
-    public Integer getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

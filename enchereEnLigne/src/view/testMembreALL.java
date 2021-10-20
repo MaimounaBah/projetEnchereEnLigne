@@ -5,6 +5,7 @@
  */
 package view;
 
+import entity.Administrateur;
 import entity.Categorie;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +13,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -28,19 +34,34 @@ public class testMembreALL extends javax.swing.JFrame {
         initComponents();
         show_categorie();
     }
-    public ArrayList<Categorie> catList(){
-        ArrayList<Categorie> catList= new ArrayList<>();
+    
+    public void supprimerRow(int id){
         Connection conn = null;
         try {
-            String requete = "SELECT * FROM Categorie";
+            String requete = "DELETE FROM administrateur WHERE idadministrateur = "+id;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/enchere", "root", "zhou");
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(requete);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    
+    public ArrayList<Administrateur> catList(){
+        ArrayList<Administrateur> catList= new ArrayList<>();
+        Connection conn = null;
+        try {
+            String requete = "SELECT * FROM administrateur";
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/enchere", "root", "zhou");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(requete);
-            Categorie c;
+            Administrateur a;
             while (rs.next()){
-                c=new Categorie(rs.getInt("idCategorie"),rs.getString("libelleCat"));
-                catList.add(c);
+                a=new Administrateur(rs.getInt("idadministrateur"),rs.getString("login"),rs.getString("motDePasse"),rs.getString("role"));
+                catList.add(a);
                 
             }
         } catch (Exception e) {
@@ -50,23 +71,25 @@ public class testMembreALL extends javax.swing.JFrame {
     }
     
     public void show_categorie(){
-        ArrayList<Categorie> list = catList();
+        ArrayList<Administrateur> list = catList();
         DefaultTableModel model = (DefaultTableModel)jTable_Display_Cat.getModel();
-        Object[] row = new Object[2];
+        Object[] row = new Object[4];
         for (int i = 0; i < list.size(); i++) {
-            row[0] = list.get(i).getIdCategorie();
-            row[1] = list.get(i).getLibelleCat();
+            row[0] = list.get(i).getIdadministrateur();
+            row[1] = list.get(i).getLogin();
+            row[1] = list.get(i).getMotDePasse();
+            row[1] = list.get(i).getRole();
             model.addRow(row);
         }
     }
     
-    public void get_Select_row(java.awt.event.MouseEvent evt){
-        int i = jTable_Display_Cat.getSelectedRow();
-        TableModel model = jTable_Display_Cat.getModel();
-        String idCat = model.getValueAt(i, 0).toString();
-        String libelleCat = model.getValueAt(i, 1).toString();
-        System.out.println(idCat + " " + libelleCat);
-        }
+//    public void get_Select_row(java.awt.event.MouseEvent evt){
+//        int i = jTable_Display_Cat.getSelectedRow();
+//        TableModel model = jTable_Display_Cat.getModel();
+//        String idCat = model.getValueAt(i, 0).toString();
+//        String libelleCat = model.getValueAt(i, 1).toString();
+//        System.out.println(idCat + " " + libelleCat);
+//        }
     
     
     /**
@@ -80,6 +103,8 @@ public class testMembreALL extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Display_Cat = new javax.swing.JTable();
+        jLabel_Test = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,6 +119,15 @@ public class testMembreALL extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable_Display_Cat);
 
+        jLabel_Test.setText("jLabel1");
+
+        jButton1.setText("Supprimer");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,17 +136,42 @@ public class testMembreALL extends javax.swing.JFrame {
                 .addGap(160, 160, 160)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(196, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel_Test)
+                        .addGap(155, 155, 155))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(109, 109, 109)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addGap(4, 4, 4)
+                .addComponent(jButton1)
+                .addGap(16, 16, 16)
+                .addComponent(jLabel_Test)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int i = jTable_Display_Cat.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel)jTable_Display_Cat.getModel();
+        int idCat = Integer.parseInt( model.getValueAt(i,0).toString() );
+        String libelleCat = model.getValueAt(i, 1).toString();
+//        String idCat = model.getValueAt(i, 0).toString();
+        supprimerRow(idCat);
+        model.removeRow(i);
+        System.out.println(idCat + " " + libelleCat);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,6 +210,8 @@ public class testMembreALL extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel_Test;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_Display_Cat;
     // End of variables declaration//GEN-END:variables
