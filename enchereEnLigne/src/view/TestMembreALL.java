@@ -12,10 +12,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -25,12 +27,12 @@ import javax.swing.table.TableModel;
  *
  * @author Steven
  */
-public class testMembreALL extends javax.swing.JFrame {
+public class TestMembreALL extends javax.swing.JFrame {
 
     /**
      * Creates new form testMembreALL
      */
-    public testMembreALL() {
+    public TestMembreALL() {
         initComponents();
         show_categorie();
     }
@@ -46,6 +48,13 @@ public class testMembreALL extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }
+    
+    public String getQQC(){
+        int i = jTable_Display_Cat.getSelectedRow();
+        TableModel model = jTable_Display_Cat.getModel();
+        String login = model.getValueAt(i, 1).toString();
+        return login;
     }
     
     
@@ -105,6 +114,7 @@ public class testMembreALL extends javax.swing.JFrame {
         jTable_Display_Cat = new javax.swing.JTable();
         jLabel_Test = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -128,6 +138,13 @@ public class testMembreALL extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Voir detail");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,24 +155,28 @@ public class testMembreALL extends javax.swing.JFrame {
                 .addContainerGap(196, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel_Test)
-                        .addGap(155, 155, 155))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addContainerGap())))
+                .addComponent(jButton2)
+                .addGap(41, 41, 41)
+                .addComponent(jButton1)
+                .addGap(93, 93, 93)
+                .addComponent(jLabel_Test)
+                .addGap(155, 155, 155))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(109, 109, 109)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(jButton1)
-                .addGap(16, 16, 16)
-                .addComponent(jLabel_Test)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel_Test))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2)
+                            .addComponent(jButton1))))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         pack();
@@ -165,14 +186,26 @@ public class testMembreALL extends javax.swing.JFrame {
         // TODO add your handling code here:
         int i = jTable_Display_Cat.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel)jTable_Display_Cat.getModel();
-        int idCat = Integer.parseInt( model.getValueAt(i,0).toString() );
+        int idAdmin = Integer.parseInt( model.getValueAt(i,0).toString() );
         String libelleCat = model.getValueAt(i, 1).toString();
 //        String idCat = model.getValueAt(i, 0).toString();
-        supprimerRow(idCat);
+        supprimerRow(idAdmin);
         model.removeRow(i);
-        System.out.println(idCat + " " + libelleCat);
+        System.out.println(idAdmin + " " + libelleCat);
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
+    TestPopUp popUp = new TestPopUp();
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        popUp.setVisible(true);
+        popUp.pack();
+        popUp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        popUp.jLabel1.setText(getQQC());
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -190,20 +223,21 @@ public class testMembreALL extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(testMembreALL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TestMembreALL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(testMembreALL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TestMembreALL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(testMembreALL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TestMembreALL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(testMembreALL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TestMembreALL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new testMembreALL().setVisible(true);
+                new TestMembreALL().setVisible(true);
                 
             }
         });
@@ -211,6 +245,7 @@ public class testMembreALL extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel_Test;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_Display_Cat;
