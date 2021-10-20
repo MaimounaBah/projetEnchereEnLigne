@@ -6,6 +6,10 @@
 package view;
 
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import model.DBConnection;
 
 /**
  *
@@ -13,14 +17,56 @@ import java.awt.*;
  */
 public class FMenuServCom extends javax.swing.JFrame {
 
+    Connection con = null;
+    PreparedStatement pst = null;
     /**
      * Creates new form FMenuAcheteur
      */
     public FMenuServCom() {
         initComponents();
+        remplirComboboxCat();
+        remplirComboboxSem();
+        
         Toolkit toolkit = getToolkit();
         Dimension  size = toolkit.getScreenSize();
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight() /2);
+    }
+    
+    
+    public void remplirComboboxCat(){
+        String sql = "SELECT libelleCat FROM categorie";
+        try{
+            con = DBConnection.getConnection();
+            pst = con.prepareStatement(sql);
+            ResultSet resultat = pst.executeQuery();
+            
+            while(resultat.next()){
+                String nom = resultat.getString("libelleCat").toString();
+                jcombCat.addItem(nom); 
+            }
+            con.close();
+        
+        }catch(Exception e){
+            
+        }
+    }
+    
+    public void remplirComboboxSem(){
+        String sql = "SELECT semaine FROM castat";
+        try{
+            con = DBConnection.getConnection();
+            pst = con.prepareStatement(sql);
+            ResultSet resultat = pst.executeQuery();
+            
+            while(resultat.next()){
+                String nom = resultat.getString("semaine").toString();
+                jcombSem.addItem(nom); 
+            }
+            con.close();
+        
+        }catch(Exception e){
+            
+        }
     }
 
     /**
@@ -49,14 +95,21 @@ public class FMenuServCom extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
+        ca = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox();
         jPanel11 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jcombSem = new javax.swing.JComboBox();
+        jcombCat = new javax.swing.JComboBox();
+        jLabel6 = new javax.swing.JLabel();
+        boutonStat = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        chiffreAff = new javax.swing.JLabel();
+        nbObjet = new javax.swing.JLabel();
+        nbVisites = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -249,19 +302,7 @@ public class FMenuServCom extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab1", jPanel3);
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Annee", "Semaine", "Chiffre d'affaire", "Nombre d'article", "Nombre de visites"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Catégorie 1", "Catégorie 2", "Catégorie 3", "Catégorie 4" }));
+        ca.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel5.setBackground(new java.awt.Color(204, 204, 204));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -286,46 +327,113 @@ public class FMenuServCom extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel3.setText("Catégorie");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel7.setText("Numéro de semaine");
+
+        jcombCat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcombCatActionPerformed(evt);
+            }
+        });
+        jcombCat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jcombCatKeyPressed(evt);
+            }
+        });
+
+        jLabel6.setText("Chiffre d'affaire");
+
+        boutonStat.setBackground(new java.awt.Color(0, 153, 255));
+        boutonStat.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        boutonStat.setForeground(new java.awt.Color(255, 255, 255));
+        boutonStat.setText("Afficher");
+        boutonStat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutonStatActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Nombre d'objets");
+
+        jLabel10.setText("Nombre de visites");
+
+        nbObjet.setBackground(new java.awt.Color(51, 51, 255));
+
+        nbVisites.setText("jLabel14");
+
+        javax.swing.GroupLayout caLayout = new javax.swing.GroupLayout(ca);
+        ca.setLayout(caLayout);
+        caLayout.setHorizontalGroup(
+            caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(caLayout.createSequentialGroup()
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel11)
                 .addGap(41, 41, 41)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 854, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(252, 252, 252))
+                .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(caLayout.createSequentialGroup()
+                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jcombCat, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(109, 109, 109)
+                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addGroup(caLayout.createSequentialGroup()
+                                .addComponent(jcombSem, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(104, 104, 104)
+                                .addComponent(boutonStat, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(caLayout.createSequentialGroup()
+                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(chiffreAff))
+                        .addGap(118, 118, 118)
+                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nbObjet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(120, 120, 120)
+                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nbVisites)
+                            .addComponent(jLabel10))))
+                .addGap(357, 357, 357))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        caLayout.setVerticalGroup(
+            caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(caLayout.createSequentialGroup()
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(caLayout.createSequentialGroup()
                         .addGap(249, 249, 249)
                         .addComponent(jLabel11)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(136, 136, 136))))
+                    .addGroup(caLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jcombSem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcombCat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(boutonStat, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
+                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel10))
+                        .addGap(18, 18, 18)
+                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(chiffreAff)
+                            .addComponent(nbObjet, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nbVisites))
+                        .addGap(508, 508, 508))))
         );
 
-        jTabbedPane1.addTab("tab2", jPanel4);
+        jTabbedPane1.addTab("tab2", ca);
 
         jPanel2.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 970, 780));
 
@@ -382,6 +490,56 @@ public class FMenuServCom extends javax.swing.JFrame {
         controleNature.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jcombCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcombCatActionPerformed
+       
+    }//GEN-LAST:event_jcombCatActionPerformed
+
+    private void jcombCatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jcombCatKeyPressed
+        // TODO add your handling code here:
+         
+    }//GEN-LAST:event_jcombCatKeyPressed
+
+    private void boutonStatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonStatActionPerformed
+
+        String cat = String.valueOf(jcombCat.getSelectedItem());
+        int sem = Integer.parseInt((String)jcombSem.getSelectedItem());
+        
+        String sql = "SELECT COUNT(idarticle) AS 'nbArticles' FROM article A, categorie C, castat CT WHERE A.idCategorie = C.idCategorie AND C.idCategorie = CT.idCategorie AND CT.semaine = " + sem + "AND C.libelleCat = " + cat;
+        
+        try{
+            con = DBConnection.getConnection();
+            pst = con.prepareStatement(sql);
+            ResultSet resultat = pst.executeQuery();
+            
+            if(resultat.next()){
+                System.out.println(resultat.getString("nbArticles"));
+                nbObjet.setText(resultat.getString("nbArticles"));
+            }
+            con.close();
+        
+        }catch(Exception e){
+            
+        }
+        
+//        
+//        String sql1 = "SELECT CA FROM castat WHERE idCategorie = ? AND Semaine = ?";
+//        
+//        try{
+//            con = DBConnection.getConnection();
+//            pst = con.prepareStatement(sql1);
+//            ResultSet resultat = pst.executeQuery();
+//            
+//            if(resultat.next()){
+//                System.out.println(resultat.getString("CA"));
+//                ca.set(resultat.getString("CA"));
+//            }
+//            con.close();
+//        
+//        }catch(Exception e){
+//            
+//        }
+    }//GEN-LAST:event_boutonStatActionPerformed
+
     
     
     
@@ -422,32 +580,37 @@ public class FMenuServCom extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton boutonStat;
+    private javax.swing.JPanel ca;
+    private javax.swing.JLabel chiffreAff;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JComboBox jcombCat;
+    private javax.swing.JComboBox jcombSem;
+    private javax.swing.JLabel nbObjet;
+    private javax.swing.JLabel nbVisites;
     private javax.swing.JPanel tab1;
     private javax.swing.JPanel tab2;
-    private javax.swing.JPanel tab3;
     // End of variables declaration//GEN-END:variables
 }
