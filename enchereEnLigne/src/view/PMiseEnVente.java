@@ -734,6 +734,14 @@ public class PMiseEnVente extends javax.swing.JPanel {
         return scaledIcon;
     }
     
+//    private String modifyDirImage(String dir){
+//        String[] list = dir.split("\\");
+//        String res = "";
+//        for (int x=0; x<list.length; x++)   
+//            res = res+"\\"+list[x];
+//        return res;
+//    }
+    
     int labelCounter = 0;
     String[] imgs = new String[4];
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -741,26 +749,33 @@ public class PMiseEnVente extends javax.swing.JPanel {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File f=chooser.getSelectedFile();
-        System.out.println(f.toString());
+        String fileName = f.getAbsolutePath();
+        ImageIcon icon = new ImageIcon(fileName);
+        Image image = icon.getImage().getScaledInstance(jLabelP1.getWidth(), jLabelP1.getHeight(), Image.SCALE_SMOOTH);
+        fileName = fileName.replace("\\", "\\\\");
         switch (labelCounter){
                 case 0:
-                    imgs[0] = f.toString();
-                    jLabelP1.setIcon(new ImageIcon(f.toString()));
+                    jLabelP1.setIcon(new ImageIcon(fileName));
+                    fileName = fileName.replace("\\", "\\\\");
+                    imgs[0] = fileName;
                     labelCounter++;
                     break;
                 case 1:
-                    imgs[1] = f.toString();
-                    jLabelP2.setIcon(new ImageIcon(f.toString()));
+                    jLabelP2.setIcon(new ImageIcon(fileName));
                     labelCounter++;
+                    fileName = fileName.replace("\\", "\\\\");
+                    imgs[1] = fileName;
                     break;
                 case 2:
-                    imgs[2] = f.toString();
-                    jLabelP3.setIcon(new ImageIcon(f.toString()));
+                    jLabelP3.setIcon(new ImageIcon(fileName));
                     labelCounter++;
+                    fileName = fileName.replace("\\", "\\\\");
+                    imgs[2] = fileName;
                     break;
                 case 3:
-                    imgs[3] = f.toString();
-                    jLabelP4.setIcon(new ImageIcon(f.toString()));
+                    jLabelP4.setIcon(new ImageIcon(fileName));
+                    fileName = fileName.replace("\\", "\\\\");
+                    imgs[3] = fileName;
                     labelCounter++;
                     break;
 //            case 0:
