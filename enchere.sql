@@ -28,7 +28,7 @@ CREATE TABLE `Categorie` (
   `idCategorie` int(11) NOT NULL AUTO_INCREMENT,
   `libelleCat` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idCategorie`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,35 +37,8 @@ CREATE TABLE `Categorie` (
 
 LOCK TABLES `Categorie` WRITE;
 /*!40000 ALTER TABLE `Categorie` DISABLE KEYS */;
-INSERT INTO `Categorie` VALUES (1,'Multimédia'),(2,'Electroménager'),(3,'Sport'),(4,'Auto'),(5,'Moto'),(6,'Télévision'),(7,'Vidéo'),(8,'Audio'),(9,'Photo'),(10,'Téléviseur 4/3'),(11,'Téléviseurs 16/9'),(12,'Téléviseurs LCD');
+INSERT INTO `Categorie` VALUES (1,'Multimédia'),(2,'Electroménager'),(6,'Télévision'),(7,'Vidéo'),(10,'Téléviseur 4/3'),(11,'Téléviseurs 16/9'),(12,'Téléviseurs LCD'),(13,'Lavage'),(14,'Froid'),(15,'Lave-linge'),(16,'Sèche-linge'),(17,'Réfrigérateur'),(18,'Congélateur'),(19,'Machine à glaçons');
 /*!40000 ALTER TABLE `Categorie` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `achatimm`
---
-
-DROP TABLE IF EXISTS `achatimm`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `achatimm` (
-  `idmembre` int(11) NOT NULL,
-  `idarticle` int(11) NOT NULL,
-  `dateAchat` datetime DEFAULT NULL,
-  PRIMARY KEY (`idmembre`,`idarticle`),
-  KEY `FK_achatimm_article_idx` (`idarticle`),
-  CONSTRAINT `FK_achatimm_article` FOREIGN KEY (`idarticle`) REFERENCES `article` (`idarticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_achatimm_membre` FOREIGN KEY (`idmembre`) REFERENCES `membre` (`idmembre`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `achatimm`
---
-
-LOCK TABLES `achatimm` WRITE;
-/*!40000 ALTER TABLE `achatimm` DISABLE KEYS */;
-/*!40000 ALTER TABLE `achatimm` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -92,6 +65,7 @@ CREATE TABLE `achatimmediat` (
 
 LOCK TABLES `achatimmediat` WRITE;
 /*!40000 ALTER TABLE `achatimmediat` DISABLE KEYS */;
+INSERT INTO `achatimmediat` VALUES (1,5,'2021-10-21 00:00:00');
 /*!40000 ALTER TABLE `achatimmediat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +125,7 @@ CREATE TABLE `article` (
   CONSTRAINT `FK_article_regionLiv` FOREIGN KEY (`idRegionLiv`) REFERENCES `regionlivraison` (`idregionlivraison`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_article_sousCat` FOREIGN KEY (`idSousCategorie`) REFERENCES `Categorie` (`idCategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_article_vendeur` FOREIGN KEY (`idvendeur`) REFERENCES `membre` (`idmembre`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,6 +134,7 @@ CREATE TABLE `article` (
 
 LOCK TABLES `article` WRITE;
 /*!40000 ALTER TABLE `article` DISABLE KEYS */;
+INSERT INTO `article` VALUES (2,'Test','This is a test TV',150.0000,100.0000,110.0000,4.0000,'2021-10-23 00:00:00',10.0000,1,5,1,6,'Cree'),(4,'Test2','Test with image',100.0000,50.0000,80.0000,3.3000,'2021-10-30 00:00:00',5.0000,1,1,1,6,'Encours d\'enchere'),(5,'test3','test with 2 images',200000.0000,1000.0000,1400.2300,5.6000,'2021-10-23 00:00:00',100.0000,1,1,2,13,'Vendu');
 /*!40000 ALTER TABLE `article` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,7 +269,7 @@ CREATE TABLE `composer` (
 
 LOCK TABLES `composer` WRITE;
 /*!40000 ALTER TABLE `composer` DISABLE KEYS */;
-INSERT INTO `composer` VALUES (1,6),(1,7),(1,8),(1,9),(6,10),(6,11),(6,12);
+INSERT INTO `composer` VALUES (1,6),(1,7),(6,10),(6,11),(6,12),(2,13),(2,14);
 /*!40000 ALTER TABLE `composer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,6 +296,7 @@ CREATE TABLE `composerSous` (
 
 LOCK TABLES `composerSous` WRITE;
 /*!40000 ALTER TABLE `composerSous` DISABLE KEYS */;
+INSERT INTO `composerSous` VALUES (6,10),(6,11),(6,12),(13,15),(13,16),(14,17),(14,18),(14,19);
 /*!40000 ALTER TABLE `composerSous` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -337,6 +313,7 @@ CREATE TABLE `encherir` (
   `nombrePas` int(11) DEFAULT NULL,
   `ifGagnant` int(11) DEFAULT NULL,
   `prixPropose` decimal(19,4) DEFAULT NULL,
+  `dateEncherir` datetime DEFAULT NULL,
   PRIMARY KEY (`idmembre`,`idarticle`),
   KEY `FK_encherir_article_idx` (`idarticle`),
   CONSTRAINT `FK_encherir_article` FOREIGN KEY (`idarticle`) REFERENCES `article` (`idarticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -350,6 +327,7 @@ CREATE TABLE `encherir` (
 
 LOCK TABLES `encherir` WRITE;
 /*!40000 ALTER TABLE `encherir` DISABLE KEYS */;
+INSERT INTO `encherir` VALUES (1,5,2,0,1200.0000,'2021-10-21 00:00:00');
 /*!40000 ALTER TABLE `encherir` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -364,7 +342,7 @@ CREATE TABLE `image` (
   `idimage` int(11) NOT NULL AUTO_INCREMENT,
   `repertoire` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idimage`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -373,6 +351,7 @@ CREATE TABLE `image` (
 
 LOCK TABLES `image` WRITE;
 /*!40000 ALTER TABLE `image` DISABLE KEYS */;
+INSERT INTO `image` VALUES (2,'C:\\\\Users\\\\Steven\\\\Desktop\\\\testImages\\\\5901292515355_1.png'),(3,'C:\\\\Users\\\\Steven\\\\Desktop\\\\testImages\\\\5901292515355_1.png'),(4,'C:\\\\Users\\\\Steven\\\\Desktop\\\\testImages\\\\3c9359cb2496e9c7c9d4175b59d6e0f5.jpg');
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,7 +376,7 @@ CREATE TABLE `membre` (
   `Statut` varchar(45) DEFAULT NULL,
   `NbEtoile` int(11) DEFAULT NULL,
   PRIMARY KEY (`idmembre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -406,6 +385,7 @@ CREATE TABLE `membre` (
 
 LOCK TABLES `membre` WRITE;
 /*!40000 ALTER TABLE `membre` DISABLE KEYS */;
+INSERT INTO `membre` VALUES (1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `membre` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -460,6 +440,7 @@ CREATE TABLE `posseder` (
 
 LOCK TABLES `posseder` WRITE;
 /*!40000 ALTER TABLE `posseder` DISABLE KEYS */;
+INSERT INTO `posseder` VALUES (2,4),(2,5),(4,5);
 /*!40000 ALTER TABLE `posseder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -550,4 +531,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-19 17:35:25
+-- Dump completed on 2021-10-21 16:51:45
