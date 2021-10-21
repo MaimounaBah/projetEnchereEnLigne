@@ -5,7 +5,17 @@
  */
 package view;
 
+import entity.Administrateur;
+import entity.Article;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,7 +31,61 @@ public class FMenuMembre extends javax.swing.JFrame {
         Toolkit toolkit = getToolkit();
         Dimension  size = toolkit.getScreenSize();
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight() /2);
+        termineVent();
+        show_article();
+        //TO DO Update according to DateCloture all the articles
+        
     }
+    Connection conn = null;
+    public void termineVent(){
+        String requete = "UPDATE article a SET a.etat = 'Fini' WHERE date_format(dateCloture,'%Y-%m-%d') = date_format(sysdate(),'%Y-%m-%d')";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/enchere", "root", "zhou");
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(requete);
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    public ArrayList<Article> resList(){
+        ArrayList<Article> artList= new ArrayList<>();
+        Connection conn = null;
+        try {
+            String requete = "SELECT idarticle,titreAnnonce,prixDep,prixReserve,dateCloture,prixAchatImme FROM article where etat = 'Encours d''enchere'";
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/enchere", "root", "zhou");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(requete);
+            Article a;
+            while (rs.next()){
+                a=new Article(rs.getInt("idarticle"),rs.getString("titreAnnonce"),rs.getFloat("prixDep"),rs.getFloat("prixReserve"),rs.getDate("dateCloture"),rs.getFloat("prixAchatImme"));
+                artList.add(a);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return artList;
+    }
+    
+    public void show_article(){
+        ArrayList<Article> list = resList();
+        DefaultTableModel model = (DefaultTableModel)jTable_cherche.getModel();
+        Object[] row = new Object[6];
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getTitreAnnonce());
+            row[0] = list.get(i).getIdarticle();
+            row[1] = list.get(i).getTitreAnnonce();
+            row[2] = list.get(i).getPrixDep();
+            row[3] = list.get(i).getPrixReserve();
+            row[4] = list.get(i).getDateCloture();
+            row[5] = list.get(i).getPrixAchatImme();
+            model.addRow(row);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -58,7 +122,7 @@ public class FMenuMembre extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTable_cherche = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
@@ -366,23 +430,25 @@ public class FMenuMembre extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_cherche.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Titre", "PrisDep", "PrixRes", "Datecloture", "Etat"
+                "idArticle", "Titre", "PrisDep", "PrixRes", "Datecloture", "AchatImme"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(4).setHeaderValue("Etat");
-        }
+        jScrollPane2.setViewportView(jTable_cherche);
 
         jButton5.setBackground(new java.awt.Color(0, 153, 255));
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Rechercher");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setBackground(new java.awt.Color(0, 153, 255));
         jButton6.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -579,14 +645,22 @@ public class FMenuMembre extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        FProposerPrixAchat proposerPrixAchat = new FProposerPrixAchat();
+        int i = jTable_cherche.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel)jTable_cherche.getModel();
+        int idArticle = Integer.parseInt( model.getValueAt(i,0).toString());
+        FProposerPrixAchat proposerPrixAchat = new FProposerPrixAchat(idArticle);
         proposerPrixAchat.setVisible(true);
+        proposerPrixAchat.pack();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         FEmissionAvis emettreAvis = new FEmissionAvis();
         emettreAvis.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     
     
@@ -656,8 +730,8 @@ public class FMenuMembre extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable_cherche;
     private view.PMiseEnVente pMiseEnVente1;
     private javax.swing.JPanel tab1;
     private javax.swing.JPanel tab2;

@@ -86,8 +86,8 @@ public class TestMembreALL extends javax.swing.JFrame {
         for (int i = 0; i < list.size(); i++) {
             row[0] = list.get(i).getIdadministrateur();
             row[1] = list.get(i).getLogin();
-            row[1] = list.get(i).getMotDePasse();
-            row[1] = list.get(i).getRole();
+            row[2] = list.get(i).getMotDePasse();
+            row[3] = list.get(i).getRole();
             model.addRow(row);
         }
     }

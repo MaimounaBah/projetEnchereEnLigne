@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -42,6 +43,7 @@ public class Encherir implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "prixPropose")
     private BigDecimal prixPropose;
+    private Date dateEncherir;
     @JoinColumn(name = "idarticle", referencedColumnName = "idarticle", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Article article;
@@ -59,6 +61,7 @@ public class Encherir implements Serializable {
     public Encherir(int idmembre, int idarticle) {
         this.encherirPK = new EncherirPK(idmembre, idarticle);
     }
+//    INSERT INTO enchere.encherir (idmembre, idarticle, nombrePas, ifGagnant, prixPropose) VALUES (1, 5, null, 1, null)
 
     public EncherirPK getEncherirPK() {
         return encherirPK;
@@ -90,6 +93,14 @@ public class Encherir implements Serializable {
 
     public void setPrixPropose(BigDecimal prixPropose) {
         this.prixPropose = prixPropose;
+    }
+    
+    public Date getDateEncherir(){
+        return this.dateEncherir;
+    }
+    
+    public void setDateEncherir(Date dateEncherir){
+        this.dateEncherir = dateEncherir;
     }
 
     public Article getArticle() {

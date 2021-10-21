@@ -61,18 +61,18 @@ public class Article implements Serializable {
     private String descAnnonce;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "prixAchatImme")
-    private BigDecimal prixAchatImme;
+    private float prixAchatImme;
     @Column(name = "prixDep")
-    private BigDecimal prixDep;
+    private float prixDep;
     @Column(name = "prixReserve")
-    private BigDecimal prixReserve;
+    private float prixReserve;
     @Column(name = "fraisPort")
-    private BigDecimal fraisPort;
+    private float fraisPort;
     @Column(name = "dateCloture")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCloture;
     @Column(name = "pasEnchere")
-    private BigDecimal pasEnchere;
+    private float pasEnchere;
     @Column(name = "etat")
     private String etat;
     @JoinTable(name = "posseder", joinColumns = {
@@ -107,7 +107,27 @@ public class Article implements Serializable {
     public Article(Integer idarticle) {
         this.idarticle = idarticle;
     }
-
+    
+    public Article(Integer idarticle,String titreAnnonce,float prixDep,float prixReserve, Date dateCloture,float prixAchatImme) {
+        this.idarticle = idarticle;
+        this.titreAnnonce = titreAnnonce;
+        this.prixDep = prixDep;
+        this.prixReserve = prixReserve;
+        this.dateCloture = dateCloture;
+        this.prixAchatImme = prixAchatImme;
+    }
+    
+    public Article(Integer idarticle,String titreAnnonce,String descAnnonce,float prixDep,float prixReserve, Date dateCloture,float prixAchatImme, float fraisPort,float pasEnchere) {
+        this.idarticle = idarticle;
+        this.titreAnnonce = titreAnnonce;
+        this.descAnnonce = descAnnonce;
+        this.prixDep = prixDep;
+        this.prixReserve = prixReserve;
+        this.dateCloture = dateCloture;
+        this.prixAchatImme = prixAchatImme;
+        this.pasEnchere = pasEnchere;
+    }
+    
     public Integer getIdarticle() {
         return idarticle;
     }
@@ -132,35 +152,35 @@ public class Article implements Serializable {
         this.descAnnonce = descAnnonce;
     }
 
-    public BigDecimal getPrixAchatImme() {
+    public float getPrixAchatImme() {
         return prixAchatImme;
     }
 
-    public void setPrixAchatImme(BigDecimal prixAchatImme) {
+    public void setPrixAchatImme(float prixAchatImme) {
         this.prixAchatImme = prixAchatImme;
     }
 
-    public BigDecimal getPrixDep() {
+    public float getPrixDep() {
         return prixDep;
     }
 
-    public void setPrixDep(BigDecimal prixDep) {
+    public void setPrixDep(float prixDep) {
         this.prixDep = prixDep;
     }
 
-    public BigDecimal getPrixReserve() {
+    public float getPrixReserve() {
         return prixReserve;
     }
 
-    public void setPrixReserve(BigDecimal prixReserve) {
+    public void setPrixReserve(float prixReserve) {
         this.prixReserve = prixReserve;
     }
 
-    public BigDecimal getFraisPort() {
+    public float getFraisPort() {
         return fraisPort;
     }
 
-    public void setFraisPort(BigDecimal fraisPort) {
+    public void setFraisPort(float fraisPort) {
         this.fraisPort = fraisPort;
     }
 
@@ -172,11 +192,11 @@ public class Article implements Serializable {
         this.dateCloture = dateCloture;
     }
 
-    public BigDecimal getPasEnchere() {
+    public float getPasEnchere() {
         return pasEnchere;
     }
 
-    public void setPasEnchere(BigDecimal pasEnchere) {
+    public void setPasEnchere(float pasEnchere) {
         this.pasEnchere = pasEnchere;
     }
 

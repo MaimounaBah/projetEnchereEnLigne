@@ -714,12 +714,19 @@ public class PMiseEnVente extends javax.swing.JPanel {
         presta.setVisible(true);
     }//GEN-LAST:event_jButton4MouseClicked
 
+    private void clearPage(){
+        
+    }
+    
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         if (validation()){
             insererArticle();
             insererImages(imgs);
             JOptionPane.showMessageDialog(null, "Success!");
+            
+            
         }else{
             JOptionPane.showMessageDialog(null, "Fail!");
         }
@@ -778,25 +785,7 @@ public class PMiseEnVente extends javax.swing.JPanel {
                     imgs[3] = fileName;
                     labelCounter++;
                     break;
-//            case 0:
-//                jLabelP1.setIcon(scaleImage(f, jLabelP1.getWidth(), jLabel1.getWidth()));
-//                labelCounter++;
-//                break;
-//            case 1:
-//                jLabelP2.setIcon(scaleImage(f, jLabelP2.getWidth(), jLabel2.getWidth()));
-//                labelCounter++;
-//                break;
-//            case 2:
-//                jLabelP3.setIcon(scaleImage(f, jLabelP3.getWidth(), jLabel3.getWidth()));
-//                labelCounter++;
-//                break;
-//            case 3:
-//                jLabelP4.setIcon(scaleImage(f, jLabelP4.getWidth(), jLabel4.getWidth()));
-//                labelCounter++;
-//                break;
         }
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
