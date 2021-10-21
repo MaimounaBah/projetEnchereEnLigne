@@ -30,11 +30,13 @@ import javax.swing.JOptionPane;
  * @author milop
  */
 public class PMiseEnVente extends javax.swing.JPanel {
+    int idMembre = 0;
     Connection conn = null;
     /**
      * Creates new form PMiseEnVente
      */
-    public PMiseEnVente() {
+    public PMiseEnVente(int idMembre) {
+        this.idMembre = idMembre;
         initComponents();
         Toolkit toolkit = getToolkit();
         Dimension  size = toolkit.getScreenSize();
@@ -540,6 +542,11 @@ public class PMiseEnVente extends javax.swing.JPanel {
                 jButton4MouseClicked(evt);
             }
         });
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -782,6 +789,14 @@ public class PMiseEnVente extends javax.swing.JPanel {
                     break;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        FPresta fPresta = new FPresta();
+        fPresta.setVisible(true);
+        fPresta.pack();
+        fPresta.idMembre = this.idMembre;
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

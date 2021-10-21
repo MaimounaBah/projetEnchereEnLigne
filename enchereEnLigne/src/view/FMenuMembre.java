@@ -5,6 +5,7 @@
  */
 package view;
 
+import model.DBConnection;
 import entity.Administrateur;
 import entity.Article;
 import java.awt.*;
@@ -23,24 +24,28 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FMenuMembre extends javax.swing.JFrame {
     public int idMembre = 1;
+    Connection conn = null;
+    
     /**
      * Creates new form FMenuAcheteur
      */
     public FMenuMembre() {
+        conn = DBConnection.getConnection();
         initComponents();
         Toolkit toolkit = getToolkit();
         Dimension  size = toolkit.getScreenSize();
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight() /2);
         termineVent();
         show_article();
+        show_histoV();
         //TO DO Update according to DateCloture all the articles
         
     }
-    Connection conn = null;
+    
     public void termineVent(){
         String requete = "UPDATE article a SET a.etat = 'Fini' WHERE date_format(dateCloture,'%Y-%m-%d') = date_format(sysdate(),'%Y-%m-%d')";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/enchere", "root", "zhou");
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(requete);
@@ -55,7 +60,7 @@ public class FMenuMembre extends javax.swing.JFrame {
         Connection conn = null;
         try {
             String requete = "SELECT idarticle,titreAnnonce,prixDep,prixReserve,dateCloture,prixAchatImme FROM article where etat = 'Encours d''enchere'";
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/enchere", "root", "zhou");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(requete);
@@ -75,7 +80,6 @@ public class FMenuMembre extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel)jTable_cherche.getModel();
         Object[] row = new Object[6];
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getTitreAnnonce());
             row[0] = list.get(i).getIdarticle();
             row[1] = list.get(i).getTitreAnnonce();
             row[2] = list.get(i).getPrixDep();
@@ -85,6 +89,40 @@ public class FMenuMembre extends javax.swing.JFrame {
             model.addRow(row);
         }
     }
+    
+        public ArrayList<Article> histoList(){
+            ArrayList<Article> artList= new ArrayList<>();
+            Connection conn = null;
+            try {
+                String requete = "SELECT idarticle,titreAnnonce,prixDep,prixReserve,dateCloture,etat FROM article where idvendeur = "+this.idMembre;
+                conn = DBConnection.getConnection();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(requete);
+                Article a;
+                while (rs.next()){
+                    a=new Article(rs.getInt("idarticle"),rs.getString("titreAnnonce"),rs.getFloat("prixDep"),rs.getFloat("prixReserve"),rs.getDate("dateCloture"),rs.getString("etat"));
+                    artList.add(a);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+            return artList;
+        }
+    
+        public void show_histoV(){
+            ArrayList<Article> list = histoList();
+            DefaultTableModel model = (DefaultTableModel)jTableHitoV.getModel();
+            Object[] row = new Object[6];
+            for (int i = 0; i < list.size(); i++) {
+                row[0] = list.get(i).getIdarticle();
+                row[1] = list.get(i).getTitreAnnonce();
+                row[2] = list.get(i).getPrixDep();
+                row[3] = list.get(i).getPrixReserve();
+                row[4] = list.get(i).getDateCloture();
+                row[5] = list.get(i).getEtat();
+                model.addRow(row);
+            }
+        }
     
 
     /**
@@ -109,10 +147,10 @@ public class FMenuMembre extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
-        pMiseEnVente1 = new view.PMiseEnVente();
+        pMiseEnVente1 = new view.PMiseEnVente(this.idMembre);
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableHitoV = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -311,18 +349,15 @@ public class FMenuMembre extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableHitoV.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Titre", "PrisDep", "PrixRes", "Datecloture", "Etat"
+                "idArticle", "Titre", "PrisNow", "PrixRes", "Datecloture", "Etat"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(4).setHeaderValue("Etat");
-        }
+        jScrollPane1.setViewportView(jTableHitoV);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
@@ -729,8 +764,8 @@ public class FMenuMembre extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTableHitoV;
     private javax.swing.JTable jTable_cherche;
     private view.PMiseEnVente pMiseEnVente1;
     private javax.swing.JPanel tab1;

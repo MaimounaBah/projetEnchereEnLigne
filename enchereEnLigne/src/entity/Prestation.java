@@ -45,9 +45,9 @@ public class Prestation implements Serializable {
     private String libellePres;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "PrixCat")
-    private BigDecimal prixCat;
+    private float prixCat;
     @Column(name = "PrixGold")
-    private BigDecimal prixGold;
+    private float prixGold;
     @ManyToMany(mappedBy = "prestationCollection")
     private Collection<Membre> membreCollection;
 
@@ -56,6 +56,11 @@ public class Prestation implements Serializable {
 
     public Prestation(Integer idPRESTATION) {
         this.idPRESTATION = idPRESTATION;
+    }
+    
+    public Prestation(String libellePres, float prixCat) {
+        this.idPRESTATION = idPRESTATION;
+        this.prixCat = prixCat;
     }
 
     public Integer getIdPRESTATION() {
@@ -74,19 +79,19 @@ public class Prestation implements Serializable {
         this.libellePres = libellePres;
     }
 
-    public BigDecimal getPrixCat() {
+    public float getPrixCat() {
         return prixCat;
     }
 
-    public void setPrixCat(BigDecimal prixCat) {
+    public void setPrixCat(float prixCat) {
         this.prixCat = prixCat;
     }
 
-    public BigDecimal getPrixGold() {
+    public float getPrixGold() {
         return prixGold;
     }
 
-    public void setPrixGold(BigDecimal prixGold) {
+    public void setPrixGold(float prixGold) {
         this.prixGold = prixGold;
     }
 
