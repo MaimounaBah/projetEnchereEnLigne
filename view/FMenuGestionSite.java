@@ -380,6 +380,11 @@ public class FMenuGestionSite extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jTable_Display_Art.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_Display_ArtMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTable_Display_Art);
 
         jButton3.setBackground(new java.awt.Color(255, 153, 153));
@@ -872,7 +877,12 @@ public class FMenuGestionSite extends javax.swing.JFrame {
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
         // TODO add your handling code here:
-       ID_Article.setText(String.valueOf(jTable_Display_Art.getValueAt(jTable_Display_Art.getSelectedRow(), 0)));
+    
+    }//GEN-LAST:event_jPanel9MouseClicked
+
+    private void jTable_Display_ArtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_Display_ArtMouseClicked
+        // TODO add your handling code here:
+        ID_Article.setText(String.valueOf(jTable_Display_Art.getValueAt(jTable_Display_Art.getSelectedRow(), 0)));
        titre_article.setText(String.valueOf(jTable_Display_Art.getValueAt(jTable_Display_Art.getSelectedRow(), 1)));
        Des_Article.setText(String.valueOf(jTable_Display_Art.getValueAt(jTable_Display_Art.getSelectedRow(), 2)));
        prix_dep_article.setText(String.valueOf(jTable_Display_Art.getValueAt(jTable_Display_Art.getSelectedRow(), 3)));
@@ -880,7 +890,7 @@ public class FMenuGestionSite extends javax.swing.JFrame {
        prix_achat_imme.setText(String.valueOf(jTable_Display_Art.getValueAt(jTable_Display_Art.getSelectedRow(), 5)));
        frais_port_article.setText(String.valueOf(jTable_Display_Art.getValueAt(jTable_Display_Art.getSelectedRow(), 6)));
        date_cloture_article.setText(String.valueOf(jTable_Display_Art.getValueAt(jTable_Display_Art.getSelectedRow(), 7)));
-    }//GEN-LAST:event_jPanel9MouseClicked
+    }//GEN-LAST:event_jTable_Display_ArtMouseClicked
 
     
     
