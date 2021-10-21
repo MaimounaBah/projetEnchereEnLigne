@@ -50,6 +50,7 @@ public class FProposerPrixAchat extends javax.swing.JFrame {
         jLabelTempsRest.setText(""+getDayDiff(a.getDateCloture()));
         jLabelDesc.setText(a.getDescAnnonce());
         jTextFieldNPrix.setText(""+a.getPrixDep());
+        jLabelPrixImm.setText(""+a.getPrixAchatImme());
         afficherImage();
     }
     
@@ -73,7 +74,6 @@ public class FProposerPrixAchat extends javax.swing.JFrame {
             String img = imgs[j];
             ImageIcon icon = new ImageIcon(img);
             Image image = icon.getImage().getScaledInstance(jLabelP1.getWidth(), jLabelP1.getHeight(), Image.SCALE_SMOOTH);
-            System.out.println(img);
             switch (j){
                 case 0:
                     jLabelP1.setIcon(new ImageIcon(img));
@@ -207,6 +207,11 @@ public class FProposerPrixAchat extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("ACHAT Immédiat");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabelTitre.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabelTitre.setText("Titre de l'annonce");
@@ -486,6 +491,51 @@ public class FProposerPrixAchat extends javax.swing.JFrame {
         float prixDep = Float.parseFloat(jTextFieldNPrix.getText());
         jTextFieldNPrix.setText(""+(prixDep+a.getPasEnchere()));
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    
+    private void insererAchat(){
+        Connection conn = null;
+        PreparedStatement pst = null;
+        LocalDate ld = LocalDate.now();
+        Date now = Date.from(ld.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String maDate = format.format(now);
+        try{
+            String sql = " INSERT INTO achatimmediat (idMembre, idArticle, dateAchat) VALUES (?, ?, ?)";
+            
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/enchere", "root", "zhou");
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, ""+this.idMembre);
+            pst.setString(2, ""+this.idArticle);
+            pst.setString(3, maDate);
+            pst.executeUpdate();
+            
+            String sql2 = "UPDATE article SET etat = 'Vendu' WHERE idarticle = "+this.idArticle;
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql2);
+        }catch(Exception e){
+                e.printStackTrace();
+        }finally{
+            try{
+                pst.close();
+                conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        int prixAchat = (int)Float.parseFloat(jLabelPrixImm.getText());
+        if (prixAchat != 0){
+            insererAchat();
+            JOptionPane.showMessageDialog(null, "Success!");
+        }else{
+            JOptionPane.showMessageDialog(null, "Reverifiez!");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

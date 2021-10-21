@@ -45,7 +45,6 @@ public class PMiseEnVente extends javax.swing.JPanel {
         jCatCombo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(e.getActionCommand());
                 afficherComboSousCat();
                 
             }
@@ -54,7 +53,6 @@ public class PMiseEnVente extends javax.swing.JPanel {
         jSousCatCombo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("-----"+e.getActionCommand());
                 afficherComboSSousCat();
             }
         });
@@ -151,9 +149,7 @@ public class PMiseEnVente extends javax.swing.JPanel {
     
     private void afficherComboSousCat(){
         jSousCatCombo.removeAllItems();
-        System.out.println("here");
         String selected = jCatCombo.getSelectedItem().toString();
-        System.out.println(selected);
         ArrayList<Categorie> list = recupereSousCat(selected);
         for (int i = 0; i < list.size(); i++) {
             jSousCatCombo.addItem(list.get(i).getLibelleCat());   
@@ -163,7 +159,6 @@ public class PMiseEnVente extends javax.swing.JPanel {
     
     private void afficherComboSSousCat(){
         jSSousCatCombo.removeAllItems();
-        System.out.println(jSousCatCombo.getSelectedIndex());
         if (jSousCatCombo.getSelectedIndex() != -1){
             String selected = jSousCatCombo.getSelectedItem().toString();
             ArrayList<Categorie> list = recupereSSousCat(selected);

@@ -299,6 +299,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="ACHAT Imm&#xe9;diat"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelTitre">
           <Properties>
