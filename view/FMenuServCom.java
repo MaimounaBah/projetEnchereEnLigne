@@ -32,7 +32,6 @@ public class FMenuServCom extends javax.swing.JFrame {
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight() /2);
     }
     
-    
     public void remplirComboboxCat(){
         String sql = "SELECT libelleCat FROM categorie";
         try{
@@ -95,7 +94,7 @@ public class FMenuServCom extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        ca = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -107,9 +106,9 @@ public class FMenuServCom extends javax.swing.JFrame {
         boutonStat = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        chiffreAff = new javax.swing.JLabel();
         nbObjet = new javax.swing.JLabel();
         nbVisites = new javax.swing.JLabel();
+        chifAffaire = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -302,7 +301,7 @@ public class FMenuServCom extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab1", jPanel3);
 
-        ca.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel5.setBackground(new java.awt.Color(204, 204, 204));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -344,6 +343,7 @@ public class FMenuServCom extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
         jLabel6.setText("Chiffre d'affaire");
 
         boutonStat.setBackground(new java.awt.Color(0, 153, 255));
@@ -356,84 +356,89 @@ public class FMenuServCom extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
         jLabel8.setText("Nombre d'objets");
 
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
         jLabel10.setText("Nombre de visites");
 
         nbObjet.setBackground(new java.awt.Color(51, 51, 255));
+        nbObjet.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
-        nbVisites.setText("jLabel14");
+        nbVisites.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
-        javax.swing.GroupLayout caLayout = new javax.swing.GroupLayout(ca);
-        ca.setLayout(caLayout);
-        caLayout.setHorizontalGroup(
-            caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(caLayout.createSequentialGroup()
+        chifAffaire.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel11)
-                .addGap(41, 41, 41)
-                .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(caLayout.createSequentialGroup()
-                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(42, 42, 42)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jcombCat, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(109, 109, 109)
-                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addGroup(caLayout.createSequentialGroup()
+                            .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jcombSem, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(104, 104, 104)
                                 .addComponent(boutonStat, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(caLayout.createSequentialGroup()
-                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(chiffreAff))
-                        .addGap(118, 118, 118)
-                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nbObjet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(120, 120, 120)
-                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nbVisites)
-                            .addComponent(jLabel10))))
-                .addGap(357, 357, 357))
+                            .addComponent(chifAffaire, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(62, 62, 62)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(nbObjet, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(62, 62, 62)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(nbVisites, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(356, 356, 356))
         );
-        caLayout.setVerticalGroup(
-            caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(caLayout.createSequentialGroup()
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(caLayout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(249, 249, 249)
                         .addComponent(jLabel11)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(caLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addContainerGap(440, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jcombSem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jcombCat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(boutonStat, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
-                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGap(58, 58, 58)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(jLabel8)
                             .addComponent(jLabel10))
                         .addGap(18, 18, 18)
-                        .addGroup(caLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(chiffreAff)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nbObjet, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nbVisites))
-                        .addGap(508, 508, 508))))
+                            .addComponent(nbVisites, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(chifAffaire, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
 
-        jTabbedPane1.addTab("tab2", ca);
+        jTabbedPane1.addTab("tab2", jPanel4);
 
         jPanel2.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 970, 780));
 
@@ -502,18 +507,20 @@ public class FMenuServCom extends javax.swing.JFrame {
     private void boutonStatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonStatActionPerformed
 
         String cat = String.valueOf(jcombCat.getSelectedItem());
-        int sem = Integer.parseInt((String)jcombSem.getSelectedItem());
+        int sem = Integer.parseInt(jcombSem.getSelectedItem().toString());
         
-        String sql = "SELECT COUNT(idarticle) AS 'nbArticles' FROM article A, categorie C, castat CT WHERE A.idCategorie = C.idCategorie AND C.idCategorie = CT.idCategorie AND CT.semaine = " + sem + "AND C.libelleCat = " + cat;
+        String sql1 = "SELECT CA FROM castat CT, categorie C WHERE C.idCategorie = CT.idCategorie AND CT.Semaine = ? AND C.libelleCat = ?";
         
         try{
             con = DBConnection.getConnection();
-            pst = con.prepareStatement(sql);
+            PreparedStatement pst = con.prepareStatement(sql1);
+            pst.setInt(1, sem);
+            pst.setString(2, cat);
             ResultSet resultat = pst.executeQuery();
             
             if(resultat.next()){
-                System.out.println(resultat.getString("nbArticles"));
-                nbObjet.setText(resultat.getString("nbArticles"));
+                System.out.println(resultat.getString("CA"));
+                chifAffaire.setText(resultat.getString("CA"));
             }
             con.close();
         
@@ -521,23 +528,44 @@ public class FMenuServCom extends javax.swing.JFrame {
             
         }
         
-//        
-//        String sql1 = "SELECT CA FROM castat WHERE idCategorie = ? AND Semaine = ?";
-//        
-//        try{
-//            con = DBConnection.getConnection();
-//            pst = con.prepareStatement(sql1);
-//            ResultSet resultat = pst.executeQuery();
-//            
-//            if(resultat.next()){
-//                System.out.println(resultat.getString("CA"));
-//                ca.set(resultat.getString("CA"));
-//            }
-//            con.close();
-//        
-//        }catch(Exception e){
-//            
-//        }
+        String sql2 = "SELECT NombreObjet FROM nostat NT, categorie C WHERE C.idCategorie = NT.idCategorie AND NT.Semaine = ? AND C.libelleCat = ?";
+        
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement pst = con.prepareStatement(sql2);
+            pst.setInt(1, sem);
+            pst.setString(2, cat);
+            ResultSet resultat = pst.executeQuery();
+            
+            if(resultat.next()){
+                System.out.println(resultat.getString("NombreObjet"));
+                nbObjet.setText(resultat.getString("NombreObjet"));
+            }
+            con.close();
+        
+        }catch(Exception e){
+            
+        }
+        
+        String sql3 = "SELECT nombreDeVisite FROM visstat VT, categorie C WHERE C.idCategorie = VT.idCategorie AND VT.Semaine = ? AND C.libelleCat = ?";
+        
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement pst = con.prepareStatement(sql3);
+            pst.setInt(1, sem);
+            pst.setString(2, cat);
+            ResultSet resultat = pst.executeQuery();
+            
+            if(resultat.next()){
+                System.out.println(resultat.getString("nombreDeVisite"));
+                nbVisites.setText(resultat.getString("nombreDeVisite"));
+            }
+            con.close();
+        
+        }catch(Exception e){
+            
+        }
+
     }//GEN-LAST:event_boutonStatActionPerformed
 
     
@@ -581,8 +609,7 @@ public class FMenuServCom extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boutonStat;
-    private javax.swing.JPanel ca;
-    private javax.swing.JLabel chiffreAff;
+    private javax.swing.JLabel chifAffaire;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -602,6 +629,7 @@ public class FMenuServCom extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable3;
