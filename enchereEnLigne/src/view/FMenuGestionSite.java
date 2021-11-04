@@ -456,7 +456,7 @@ public class FMenuGestionSite extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Rechercher un article");
+        jLabel6.setText("Rechercher un membre");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -683,6 +683,7 @@ public class FMenuGestionSite extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Membre supprimé");
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null, ex);
+            ex.printStackTrace();
         }
         miseAjourTableMembre();
     }//GEN-LAST:event_btnSupprimerMembreActionPerformed

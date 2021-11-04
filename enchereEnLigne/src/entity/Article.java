@@ -124,6 +124,15 @@ public class Article implements Serializable {
         this.dateCloture = dateCloture;
         this.etat = etat;
     }
+     
+      public Article(Integer idarticle,String titreAnnonce,String descAnnonce, float prixAchatImme,Date dateCloture) {
+        this.idarticle = idarticle;
+        this.titreAnnonce = titreAnnonce;
+        this.descAnnonce = descAnnonce;
+        this.prixAchatImme = prixAchatImme;
+        this.dateCloture = dateCloture;
+             
+    }
     
     public Article(Integer idarticle,String titreAnnonce,String descAnnonce,float prixDep,float prixReserve, Date dateCloture,float prixAchatImme, float fraisPort,float pasEnchere) {
         this.idarticle = idarticle;

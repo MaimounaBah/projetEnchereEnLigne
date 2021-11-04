@@ -27,7 +27,7 @@ import model.DBConnection;
  * @author milop
  */
 public class FPresta extends javax.swing.JFrame {
-    public int idMembre = 1;
+    
 
     /**
      * Creates new form FPresta

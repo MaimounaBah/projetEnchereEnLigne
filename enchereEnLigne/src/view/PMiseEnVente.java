@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import model.DBConnection;
+import model.Shared;
 
 /**
  *
@@ -27,7 +28,7 @@ import model.DBConnection;
  */
 public class PMiseEnVente extends javax.swing.JPanel {
     Connection conn = null;
-    int idMembre;
+    //L'utilisateur connectée
     /**
      * Creates new form PMiseEnVente
      */
@@ -39,27 +40,25 @@ public class PMiseEnVente extends javax.swing.JPanel {
         afficherComboCat();
         afficherComboReg();
         
-        jCatCombo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                afficherComboSousCat();
-                
-            }
+        jCatCombo.addActionListener((ActionEvent e) -> {
+            afficherComboSousCat();
         });
         
-        jSousCatCombo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                afficherComboSSousCat();
-            }
+        jSousCatCombo.addActionListener((ActionEvent e) -> {
+            afficherComboSSousCat();
         });
         
     }
     
+    
+    private int getConnectedUser(){
+       
+        return 0;
+    }
     private ArrayList<Categorie> recupereCat(){
         ArrayList<Categorie> catList= new ArrayList<>();
         try {
-            String requete = "select * from Categorie c where idCategorie not in (select idSousCategorie from composer) and idCategorie not in (select idSSousCategorie from composerSous)";
+            String requete = "SELECT * from Categorie c where idCategorie not in (select idSousCategorie from composer) and idCategorie not in (select idSSousCategorie from composerSous)";
             conn = DBConnection.getConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(requete);
@@ -170,7 +169,7 @@ public class PMiseEnVente extends javax.swing.JPanel {
     }
     
     private Categorie getIdCat(String libelle){
-        String requete = "select idCategorie from Categorie where libelleCat = '"+libelle+"'";
+        String requete = "SELECT idCategorie from Categorie where libelleCat = '"+libelle+"'";
         Categorie c = null;
         try {
            conn = DBConnection.getConnection();
@@ -188,7 +187,7 @@ public class PMiseEnVente extends javax.swing.JPanel {
     }
     
     private Regionlivraison getIdRegion(String libelle){
-        String requete = "select idregionlivraison from regionlivraison where region = '"+libelle+"'";
+        String requete = "SELECT idregionlivraison from regionlivraison where region = '"+libelle+"'";
         Regionlivraison r = null;
         try {
             conn = DBConnection.getConnection();
@@ -259,9 +258,8 @@ public class PMiseEnVente extends javax.swing.JPanel {
     private void insererArticle(){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String maDate = format.format(dateClo);
-        
         float pasEnchere;
-        int idVendeur = this.idMembre;
+        int idVendeur = Shared.getUserId();
         int idRegionLiv = getIdRegion(regCombo).getIdregionlivraison();
         int idCategorie = getIdCat(cat).getIdCategorie();
         int idSousCategorie = getIdCat(sousCat).getIdCategorie();
@@ -272,7 +270,8 @@ public class PMiseEnVente extends javax.swing.JPanel {
              String sql = "INSERT INTO article (titreAnnonce, descAnnonce, prixAchatImme, prixDep, prixReserve, fraisPort, dateCloture, pasEnchere, idvendeur, idRegionLiv, idCategorie, idSousCategorie, etat) "
                      + "VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, 'encours d''enchère')";
           
-            conn = DBConnection.getConnection();
+           Class.forName("com.mysql.jdbc.Driver");
+           conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/enchere", "root", "");
             pst = conn.prepareStatement(sql);
             pst.setString(1, titre);
             pst.setString(2, description);
@@ -290,7 +289,8 @@ public class PMiseEnVente extends javax.swing.JPanel {
             pst.executeUpdate();
             
         }catch(Exception e){
-                e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
+                //e.printStackTrace();
         }finally{
             try{
                 pst.close();
@@ -703,7 +703,7 @@ public class PMiseEnVente extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (validation()){
             insererArticle();
-            insererImages(imgs);
+            //insererImages(imgs);
             JOptionPane.showMessageDialog(null, "Success!");
             
             

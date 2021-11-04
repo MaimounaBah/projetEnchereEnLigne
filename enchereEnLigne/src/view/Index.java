@@ -19,6 +19,8 @@ public class Index extends javax.swing.JFrame {
      */
     public Index() {
         initComponents();
+        
+      
     }
 
     /**
@@ -316,9 +318,9 @@ public class Index extends javax.swing.JFrame {
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
-        ConnexionM membre = new ConnexionM();
-        membre.setVisible(true);
-        this.dispose();
+                 ConnexionM membre = new ConnexionM();
+                    membre.setVisible(true);
+                    this.dispose();     
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked

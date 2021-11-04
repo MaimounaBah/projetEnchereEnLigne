@@ -9,7 +9,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+
 
 
 /**
@@ -120,29 +120,35 @@ public class InscriptionMembre extends javax.swing.JFrame {
          }
     }
     
-    void insertMember() {
+    private void insertMember() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String maDate = format.format(dateN);
+       
+        nom = txtNom.getText();
+        prenom = txtPrenom.getText();
+        mail = txtMail.getText();
+        adrPos = txtAdresseP.getText();
+        cp = txtCP.getText();
+        ville = comVille.getSelectedItem().toString();
+        pays = comPays.getSelectedItem().toString();
+        mdp = txtmdp.getText();
         
         try{
              String sql = "INSERT INTO membre (nom, prenom,dateNais,mail,adressePostal,CP,ville,pays,MotDePass,Statut,NbEtoile) "
                      + "VALUES (?,?,?,?,?,?,?,?,?,'membreSimple',0)";
           
             Class.forName("com.mysql.jdbc.Driver");
-              con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enchere", "root", "");
-             // String query = "INSERT INTO membre (nom, prenom,dateNais,mail,adressePostal,CP,ville,pays,MotDePass,Statut,NbEtoile) VALUES (?,?,?,?,?,?,?,?,?,'membreSimple',0)";
-             
-              pst = con.prepareStatement(sql);
-            // stmt.setInt(1 , getIdMembre());
-             pst.setString(1, txtNom.getText());
-             pst.setString(2, txtPrenom.getText());
+             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/enchere", "root", "");
+             pst = con.prepareStatement(sql);
+             pst.setString(1, nom);
+             pst.setString(2, prenom);
              pst.setString(3, maDate);
-             pst.setString(4, txtMail.getText());
-             pst.setString(5, txtAdresseP.getText());
-             pst.setString(6, txtCP.getText());
-             pst.setString(7, comVille.getSelectedItem().toString());
-             pst.setString(8, comPays.getSelectedItem().toString());
-             pst.setString(9, txtmdp.getText());
+             pst.setString(4, mail);
+             pst.setString(5, adrPos );
+             pst.setString(6,cp );
+             pst.setString(7, ville);
+             pst.setString(8, pays);
+             pst.setString(9, mdp);
               
              pst.executeUpdate();
               int response = JOptionPane.showConfirmDialog(null, "Inscription réussie. Se connecter?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

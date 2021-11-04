@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import model.DBConnection;
+import model.Shared;
 
 /**
  *
@@ -30,7 +31,7 @@ public class ConnexionM extends javax.swing.JFrame {
 
     void verificationUtilisateur(String mail, String motDePass){
         try{
-            String sql = "SELECT idmembre, mail, motDePass FROM membre WHERE mail=? AND motDePass = ?";
+            String sql = "SELECT idmembre,nom, prenom, mail, motDePass FROM membre WHERE mail=? AND motDePass = ?";
             con = DBConnection.getConnection();
             pst = con.prepareStatement(sql);
             pst.setString(1, mail);
@@ -41,11 +42,19 @@ public class ConnexionM extends javax.swing.JFrame {
             
             if(rs.next()){
                JOptionPane.showMessageDialog(this, "connexion réussie");
+               
+               int id = rs.getInt("idmembre");
+               Shared.setUserId(id);
+               String nom = rs.getString("nom");
+               String prenom = rs.getString("prenom");
+               Shared.nom = nom;
+               Shared.prenom = prenom;
+               
+              
                FMenuMembre membre = new FMenuMembre(rs.getInt("idmembre"));
                membre.setVisible(true);
                membre.pack();
                membre.idMembre = rs.getInt("idmembre");
-                System.out.println(rs.getInt("idmembre"));
                this.dispose();
             }else{
                 JOptionPane.showMessageDialog(this, "mail OU mot de passe incorrects");
@@ -166,6 +175,7 @@ public class ConnexionM extends javax.swing.JFrame {
     }//GEN-LAST:event_txtidentifiantActionPerformed
 
     private void bntConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntConnectActionPerformed
+       
         // TODO add your handling code here:
         String identfiant = txtidentifiant.getText();
         String password = txtPwd.getText();

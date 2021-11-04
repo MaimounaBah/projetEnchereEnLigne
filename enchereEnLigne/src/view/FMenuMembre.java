@@ -21,6 +21,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.DBConnection;
+import model.Shared;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -45,6 +46,7 @@ public class FMenuMembre extends javax.swing.JFrame {
         show_article();
         show_histoV();
         show_achatV();
+        jinfomMembre.setText(Shared.informations());
         //TO DO Update according to DateCloture all the articles
         
     }
@@ -93,7 +95,6 @@ public class FMenuMembre extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel)jTable_cherche.getModel();
         Object[] row = new Object[6];
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getTitreAnnonce());
             row[0] = list.get(i).getIdarticle();
             row[1] = list.get(i).getTitreAnnonce();
             row[2] = list.get(i).getPrixDep();
@@ -258,7 +259,7 @@ public ArrayList<Article> achatList(){
         jLabel7 = new javax.swing.JLabel();
         tab5 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        jinfomMembre = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -414,9 +415,8 @@ public ArrayList<Article> achatList(){
             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
         );
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Membre");
+        jinfomMembre.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jinfomMembre.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/admin.png"))); // NOI18N
 
@@ -445,7 +445,7 @@ public ArrayList<Article> achatList(){
                         .addContainerGap()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jinfomMembre, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -457,7 +457,7 @@ public ArrayList<Article> achatList(){
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel14)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jinfomMembre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(136, 136, 136)
                 .addComponent(tab1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -920,6 +920,7 @@ public ArrayList<Article> achatList(){
         // TODO add your handling code here:
         try{
             conn.close();
+            Shared.setUserId(0);
             Index accueil = new Index();
             accueil.setVisible(true);
             this.dispose();
@@ -1012,7 +1013,6 @@ public ArrayList<Article> achatList(){
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -1039,6 +1039,7 @@ public ArrayList<Article> achatList(){
     private javax.swing.JTable jTableArticle;
     private javax.swing.JTable jTableHitoV;
     private javax.swing.JTable jTable_cherche;
+    private javax.swing.JLabel jinfomMembre;
     private view.PMiseEnVente pMiseEnVente1;
     private javax.swing.JPanel tab1;
     private javax.swing.JPanel tab2;

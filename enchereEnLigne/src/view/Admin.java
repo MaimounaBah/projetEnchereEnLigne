@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import model.DBConnection;
+import model.Shared;
 
 /**
  *
@@ -60,7 +61,9 @@ public class Admin extends javax.swing.JFrame {
             
              if(rs.next()){
                JOptionPane.showMessageDialog(this, "identifiants corrects. Vous êtes connecté en tant que " + role);
-                if (role.equals("Service Juridique")){
+               
+               
+               if (role.equals("Service Juridique")){
                     FMenuServJurid juridique = new FMenuServJurid();
                     juridique.setVisible(true);
                     this.dispose();
